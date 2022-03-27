@@ -282,12 +282,7 @@ export default class MyScene {
             let screen = this.sideScreens[id]['mesh']
             let material =  this.sideScreens[id]['material']
             this.sideScreens[id]['play'] = true;
-            const optionalHlsOpts = {
-            };
-            const optionalThetaOpts = {
-              allowRangeRequests: true, // false if cdn does not support range headers  
-            };
-
+            
             this.addVideoNodex(`_${id}`)
 
             const player = videojs(`video-_${id}`, {
@@ -916,35 +911,6 @@ export default class MyScene {
         videoMat.diffuseTexture = txt
         new_screen.material = videoMat
 
-
-
-        /*let ellipsoid = this.drawEllipsoid(new_screen, `ellip_screen_${id}`, 20, 25, 10, true)
-        ellipsoid.actionManager = new BABYLON.ActionManager(this._scene);
-        ellipsoid.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction({
-                    trigger: BABYLON.ActionManager.OnIntersectionEnterTrigger,
-                    parameter: this._scene.getMeshByName("__ellipsoid__"),
-                },
-                () => {
-
-                    console.log(`screen_${id} collide`)
-                },
-            ),
-
-        );
-        ellipsoid.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction({
-                    trigger: BABYLON.ActionManager.OnIntersectionExitTrigger,
-                    parameter: this._scene.getMeshByName("__ellipsoid__"),
-                },
-                () => {
-
-                    console.log(`screen_${id} collision exited`)
-                },
-            ),
-        );*/
-
-
     }
 
     getRandomInt(max) {
@@ -952,8 +918,6 @@ export default class MyScene {
     }
 
     async screen_helper() {
-
-        //this.create_screen(0, new BABYLON.Vector3(0, -0.3, 16), Math.PI)
 
 
         let idelcanvasMat = new BABYLON.StandardMaterial("screen_idle_mat", this._scene);
@@ -985,87 +949,6 @@ export default class MyScene {
         }
  
         idelcv.start(this.idleCanvas.getContext(), this.idleCanvas)
-
-
-        //$( 'body' ).append( `<video id="videojs-theta-plugin-player_${id}" class="video-js vjs-default-skin" controls="" playsinline="" hidden></video>`);
-
-
-        /*let videoMat = new BABYLON.StandardMaterial("textVid", this._scene);
-        videoMat.backFaceCulling = false;
-        videoMat.specularColor = new BABYLON.Color3(255, 0, 0);
-        videoMat.roughness = 1;*/
-
-
-
-        /*  const optionalHlsOpts = null;
-          const optionalThetaOpts = {
-            allowRangeRequests: true, // false if cdn does not support range headers  
-          };
-          const player = videojs('videojs-theta-plugin-player', {
-                  techOrder: ["theta_hlsjs", "html5"],
-                  sources:[{
-                      src: "http://127.0.0.1:7935/stream/".concat("0x80d639396bf022e61dcbf4edfa6c0f367f558891", ".m3u8?ts=").concat( (new Date).getTime()),
-                      type: "application/x-mpegURL",
-                      label: "Auto"
-                  }],
-                  theta_hlsjs: {
-                      videoId: "test",
-                      userId: "user1", 
-                      onThetaReady: null, // optional listener
-                      onStreamReady:  ()=> {
-                          setTimeout( ()=> {
-                              player.autoplay("any")
-                              let vp1 = $( "#videojs-theta-plugin-player" ).children("video")[0]
-                              let vtx = new BABYLON.VideoTexture('vtx1', vp1, this._scene, true, true);
-                              videoMat.diffuseTexture = vtx;
-                              screen.material = videoMat;
-
-                          }, 500)
-                      },
-                      hlsOpts: optionalHlsOpts,
-                      thetaOpts: optionalThetaOpts,
-                  }
-              });*/
-
-
-
-
-        /*const box = BABYLON.MeshBuilder.CreateBox("test_box", {
-            height:1,
-            width:1
-        }, this._scene);
-        box.position.y = -1.8
-        box.position.x= this.randomPosition(-9.0,9.0)
-        box.position.z = this.randomPosition(0.0,13.0)
-        let ellipsoid =  this._scene.getMeshByName("__ellipsoid__")
-        ellipsoid.actionManager = new BABYLON.ActionManager(this._scene);
-        ellipsoid.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(
-                {
-                    trigger: BABYLON.ActionManager.OnIntersectionEnterTrigger,
-                    parameter:  box,
-                },
-                () => {
-                    this._remoteChannel.join("test")
-                    console.log("Collison found...")
-                },
-            ),
-   
-        );
-        ellipsoid.actionManager.registerAction(
-            new BABYLON.ExecuteCodeAction(
-                {
-                    trigger: BABYLON.ActionManager.OnIntersectionExitTrigger,
-                    parameter: box,
-                },
-                () => {
-                    this._remoteChannel.leave("test")
-                    console.log("Collison Exited...")
-                },
-            ),
-   
-        );*/
-
 
     }
 
@@ -1118,17 +1001,12 @@ export default class MyScene {
         this._player.rotation = this._player.rotationQuaternion.toEulerAngles();
         this._player.rotationQuaternion = null;
 
-        //this._player.rotate(new BABYLON.Vector3(0,1,0),Math.PI,0);
-        //this._player.position.y=2.1;
-        // mat.diffuseTexture = new BABYLON.Texture("https://d5nunyagcicgy.cloudfront.net/external_assets/hero_examples/hair_beach_v391182663/original.jpeg");
-
         this._player.position.x = this.randomPosition(-9.0, 9.0)
         this._player.position.z = this.randomPosition(0.0, 13.0)
 
         let buf_list = [this.compressFloatPos(this._player.position.x), this.compressFloatPos(this._player.position.z)]
         this._ws.send(Buffer.concat(buf_list))
 
-        //this.drawEllipsoid(this._player, "__ellipsoid__", 1, 8, 8, true)
 
         this._player.checkCollisions = true;
         this._player.ellipsoid = new BABYLON.Vector3(0.5, 1, 0.5);
@@ -1208,29 +1086,7 @@ export default class MyScene {
             if(["Object_27","Object_21","Object_17","Object_23","Object_25","Object_19","Object_33","Object_31","Object_29"].includes(m.name)){
                 m.checkCollisions = false; 
             }
-           /* if(m.name=="Object_64.003"){
-                console.log("hetansh",m.position)
-            }*/
         }
-
-     
- 
-
-        /*let Icosphere = await BABYLON.SceneLoader.ImportMeshAsync(null, "", "dome_multi_screen.glb", this._scene);
-        for (let m of Icosphere.meshes) {
-            //console.log(m.name)
-            m.checkCollisions = true;
-        }*/
-        
-        /*let Icosphere = await BABYLON.SceneLoader.ImportMeshAsync(null, "", "theta_token.glb", this._scene);
-        for (let m of Icosphere.meshes) {
-            m.checkCollisions = false;
-        }
-        let theta_ = Icosphere.meshes[0] 
-        theta_.position.z = 16
-        theta_.scaling = new BABYLON.Vector3(4,4,4)
-        let anim1 = Icosphere.animationGroups[1] 
-        anim1.start(true, 1.0, anim1.from, anim1.to, false);*/
 
         var gl = new BABYLON.GlowLayer("glow_lp", this._scene);
         let Icosphere = await BABYLON.SceneLoader.ImportMeshAsync(null, "", "livepeer.glb", this._scene);
@@ -1250,70 +1106,7 @@ export default class MyScene {
             anim.start(true, 1.0, anim.from, anim.to, false);
         }
         
-        /*let Icosphere = await BABYLON.SceneLoader.ImportMeshAsync(null, "", "digital_board.glb", this._scene);
-        for (let m of Icosphere.meshes) {
-            console.log(m.name)
-        }
-
-        var groundWidth = 2;
-        var groundHeight = 0.5;
-
-        var ground = BABYLON.MeshBuilder.CreateGround("ground1", {
-            width: groundWidth,
-            height: groundHeight,
-            subdivisions: 25
-        }, this._scene);
-        var txt = new BABYLON.DynamicTexture(`canvas_brd`, {
-            width: 512,
-            height: 256
-        }, this._scene);
-        let bmat: StandardMaterial = new BABYLON.StandardMaterial('ww', this._scene)
-
-        bmat.diffuseTexture = txt
-        ground.material = bmat
-        this.brdcanvas = txt*/
-
-
-        /*let pbr_stage0 = new BABYLON.PBRMaterial("pbr", this._scene);
-        let pbr_stage1 = new BABYLON.PBRMaterial("pbr", this._scene);
-
-        let stage_mesh_0 = this._scene.getMeshByName("stage_primitive0")
-        let stage_mesh_1 = this._scene.getMeshByName("stage_primitive1")
-        let cylinder0 = this._scene.getMeshByName("Cylinder_primitive0")
-
-        stage_mesh_0.material = pbr_stage0;
-        stage_mesh_1.material = pbr_stage1;
-
-        pbr_stage0.metallic = 1.0;
-        pbr_stage0.roughness = 0.2;
-        pbr_stage1.metallic = 1.0;
-        pbr_stage1.roughness = 0.1;
-        pbr_stage0.subSurface.isRefractionEnabled = true;
-        pbr_stage1.subSurface.isRefractionEnabled = true;
-
-        var glass = new BABYLON.PBRMaterial("glass", this._scene);
-
-        glass.indexOfRefraction = 0.52;
-        glass.alpha = 0.1;
-        glass.directIntensity = 0.0;
-        glass.environmentIntensity = 0.7;
-        glass.cameraExposure = 0.66;
-        glass.cameraContrast = 1.66;
-        glass.microSurface = 1;
-        glass.subSurface.isRefractionEnabled = true;
-        glass.reflectivityColor = new BABYLON.Color3(0.2, 0.2, 0.2);
-        glass.albedoColor = new BABYLON.Color3(0.95, 0.95, 0.95);
-        cylinder0.material = glass;
-
-        var gl = new BABYLON.GlowLayer("glow", this._scene);
-
-        gl.addIncludedOnlyMesh(this._scene.getMeshByName("Cylinder.003"))
-        gl.addIncludedOnlyMesh(this._scene.getMeshByName("Cylinder.007"))
-        gl.addIncludedOnlyMesh(this._scene.getMeshByName("Cylinder.008"))
-        gl.addIncludedOnlyMesh(this._scene.getMeshByName("Cylinder.009"))
-        gl.addIncludedOnlyMesh(this._scene.getMeshByName("Cylinder.010"))
-        gl.intensity = 0.1;*/
-
+     
     }
 
     doRender(): void {

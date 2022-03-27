@@ -85,16 +85,7 @@ window.addEventListener('DOMContentLoaded', async () => {
             window.toast("Error while joining event!")
             return;
         }
-        //$("#loadertx").text("Waiting for Theta Edge Node")
-        /*let myPromise = new Promise((myResolve, myReject) => {
-            let vx =setInterval(()=>{
-                fetch('https://theta-edgenode.herokuapp.com').then(()=>{
-                    clearInterval(vx)
-                    myResolve()
-                }).catch(()=>{})
-            },500)
-        });
-        await myPromise;*/
+
         let game = new MyScene('renderCanvas', meet_id, name);
         game.wsClient((isJoin, message) => {
             if (!isJoin) {
@@ -111,13 +102,8 @@ window.addEventListener('DOMContentLoaded', async () => {
             game.doRender()
         })
 
-
-
     })
 
-
-    //$('#menu_page').css('height', window.innerHeight/1.5);
-    //$('#menu_page').css('width', window.innerHeight/3);
     let v = false;
 
     $("#menu").click(() => {
