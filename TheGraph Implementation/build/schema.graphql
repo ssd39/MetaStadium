@@ -1,0 +1,23 @@
+type User @entity{
+  id:ID!
+  nftlist:[NFT!] @derivedFrom(field:"owner")
+  events:[Event!] @derivedFrom(field:"owner")
+}
+
+type Event @entity {
+  id: ID!
+  idString: String
+  url: String 
+  owner: User!
+  nftlist: [NFT!] @derivedFrom(field:"event")
+}
+
+type NFT @entity{
+  id: ID!
+  url: String
+  event: Event!
+  owner:User!
+  price:BigInt!
+  forsale:Boolean!
+
+}

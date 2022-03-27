@@ -1,0 +1,54 @@
+specVersion: 0.0.2
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Nftcontract
+    network: mumbai
+    source:
+      address: "0x72E3b2364500b0e92d55A68a6cC22824D6FA5eDb"
+      abi: Nftcontract
+      startBlock: 25677970
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - User
+        - Event
+        - NFT
+      abis:
+        - name: Nftcontract
+          file: Nftcontract/abis/Nftcontract.json
+      eventHandlers:
+        - event: mintnft(uint256,address,string,string)
+          handler: handlemintnft
+      file: Nftcontract/Nftcontract.wasm
+  - kind: ethereum/contract
+    name: LivepeerNFT
+    network: mumbai
+    source:
+      address: "0xa456ADdC6FfAD8Bf347B3Fb15877583D40A968A4"
+      abi: Livepeernft
+      startBlock: 25677970
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - User
+        - Event
+        - NFT
+      abis:
+        - name: Livepeernft
+          file: LivepeerNFT/abis/Livepeernft.json
+      eventHandlers:
+        - event: mintnft(uint256,address,string,uint256,uint256)
+          handler: handlemint
+        - event: buynft(uint256,address)
+          handler: handlebuynft
+        - event: setprice(uint256,uint256)
+          handler: handlesetprice
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: LivepeerNFT/LivepeerNFT.wasm
